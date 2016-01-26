@@ -137,7 +137,9 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
         }
 
         // Create radio button for content
-        $('<label><input type="radio"' + show + ' name="' + uniqueId + '">' + label + '</label>')
+        $('<label class="h5p-radio-selector-label">' +
+            '<input type="radio"' + show + ' name="' + uniqueId + '">' + label +
+          '</label>')
           .change(function () {
 
             // Show radio option
@@ -264,7 +266,6 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       }
       else if (resetOption instanceof H5PEditor.ColorSelector) {
         resetOption.$colorPicker.spectrum('set', null);
-        //child.setColor(child.$colorPicker.spectrum('get', tinycolor));
         removeOption();
       }
     };
@@ -290,6 +291,21 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
         $input.attr('checked', true);
         $input.trigger('change');
       }
+    };
+
+    this.setRadioLabels = function (radioLabels) {
+      var $optionLabels = $options.children();
+
+      // Validate length
+      if ($optionLabels.length !== radioLabels.length) {
+        return false;
+      }
+
+      $optionLabels.each(function (idx) {
+        $(this).get(0).lastChild.nodeValue = radioLabels[idx];
+      });
+
+      return true;
     };
 
     /**
