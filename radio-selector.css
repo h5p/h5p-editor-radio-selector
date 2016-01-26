@@ -1,0 +1,7 @@
+.h5p-radio-selector-values > div {
+  display: none;
+}
+
+.h5p-radio-selector-values > div.show {
+  display: block;
+}
