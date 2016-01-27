@@ -346,7 +346,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       }
 
       $optionLabels.each(function (idx) {
-        $(self).get(0).lastChild.nodeValue = radioLabels[idx];
+        $(this).get(0).lastChild.nodeValue = radioLabels[idx];
       });
 
       return true;
