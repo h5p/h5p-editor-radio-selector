@@ -56,8 +56,8 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
     /**
      * @typedef {Object} StoredOption Stored options
-     * @property {string} StoredOption.type Type (e.g. 'image', 'bgColor')
-     * @property {string} StoredOption.value Value of type
+     * @property {string} type Type (e.g. 'image', 'bgColor')
+     * @property {string|*} value Value of type
      */
 
     /**
@@ -360,7 +360,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     self.validate = function () {
       // Prune unused params
       $options.find('input').each(function (idx) {
-        if (!$(self).is(':checked')) {
+        if (!$(this).is(':checked')) {
           delete params[field.fields[idx].name];
         }
         else if (self.children[idx] instanceof H5PEditor.ColorSelector) {
