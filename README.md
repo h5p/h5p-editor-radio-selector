@@ -38,7 +38,8 @@ In your semantics.json set, e.g.:
 }
 ```
 
-An example of usage is found in the Image Hotspots content type: https://github.com/h5p/h5p-image-hotspots/blob/master/semantics.json
+An example of usage is found in the Course Presentation semantics: 
+https://github.com/h5p/h5p-course-presentation/blob/master/semantics.json
 
 ## License
 

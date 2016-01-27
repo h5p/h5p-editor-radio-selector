@@ -1,17 +1,11 @@
-/**
- * RadioSelector widget module
- *
- * @param {H5P.jQuery} $
- */
 H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventDispatcher) {
 
   var idCounter = 0;
 
   /**
-   * Creates an image coordinate selector.
+   * Creates a Radio Selector widget.
    *
    * @class H5PEditor.RadioSelector
-   *
    * @param {Object} parent
    * @param {Object} field
    * @param {Object} params
@@ -21,7 +15,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     var self = this;
 
     // Inheritance
-    EventDispatcher.call(this);
+    EventDispatcher.call(self);
 
     // Wrapper for widget
     var $container = $('<div class="h5p-radio-selector">');
@@ -61,12 +55,16 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     setValue(field, params);
 
     /**
+     * @typedef {Object} StoredOption Stored options
+     * @property {string} StoredOption.type Type (e.g. 'image', 'bgColor')
+     * @property {string} StoredOption.value Value of type
+     */
+
+    /**
      * Add option at given index
      *
      * @param {number} i Index of radio option
-     * @param {Object} option Stored option
-     * @param {string} option.type Type (e.g. 'image', 'bgColor')
-     * @param {string} option.value Value of type
+     * @param {StoredOption} option Stored option
      */
     var addOption = function (i, option) {
       storedOptions[i] = option;
@@ -76,7 +74,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Remove given radio option
      *
-     * @param [i] Index of radio option
+     * @param {number} [i] Index of radio option
      */
     var removeOption = function (i) {
       i = i || currentOption;
@@ -94,24 +92,11 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Trigger type added to parent
      *
-     * @param i Index of option triggered
+     * @param {number} i Index of option triggered
      */
     var triggerOption = function (i) {
       currentOption = i;
       self.trigger('backgroundAdded');
-    };
-
-    /**
-     * Append the field to the wrapper.
-     *
-     * @param {jQuery} $wrapper
-     */
-    self.appendTo = function ($wrapper) {
-      createRadioContent();
-      createRadioButtons();
-      handleSemanticsEvents();
-      storeInitialOptions();
-      $container.appendTo($wrapper)
     };
 
     /**
@@ -152,14 +137,8 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     };
 
     /**
-     * Show content with given index
-     * @param index Index of content
+     * Store initial options from processed parameters
      */
-    self.showContent = function (index) {
-      $values.children().removeClass('show');
-      $values.children().eq(index).addClass('show');
-    };
-
     var storeInitialOptions = function () {
       self.children.forEach(function (child, idx) {
 
@@ -199,8 +178,8 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Try handling child as image
      *
-     * @param child
-     * @param i
+     * @param {Object} child Processed semantics instance
+     * @param {number} i Index of instance in semantics
      */
     var handleImages = function (child, i) {
       if (!(child instanceof ns.File) || !child.changes) {
@@ -227,10 +206,10 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     };
 
     /**
-     * Try handling as color selector
+     * Try handling child as color selector
      *
-     * @param child
-     * @param i
+     * @param {Object} child Processed semantics instance
+     * @param {number} i Index of instance in semantics
      */
     var handleColors = function (child, i) {
       if (!(child instanceof H5PEditor.ColorSelector)) {
@@ -255,7 +234,41 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       });
     };
 
-    this.resetCheckedOption = function () {
+    /**
+     * Append the field to the wrapper.
+     *
+     * @param {jQuery} $wrapper
+     * @returns {H5PEditor.RadioSelector}
+     */
+    self.appendTo = function ($wrapper) {
+      createRadioContent();
+      createRadioButtons();
+      handleSemanticsEvents();
+      storeInitialOptions();
+      $container.appendTo($wrapper);
+
+      return self;
+    };
+
+    /**
+     * Show content with given index
+     *
+     * @param index Index of content
+     * @returns {H5PEditor.RadioSelector}
+     */
+    self.showContent = function (index) {
+      $values.children().removeClass('show');
+      $values.children().eq(index).addClass('show');
+
+      return self;
+    };
+
+    /**
+     * Reset currently selected option
+     *
+     * @returns {H5PEditor.RadioSelector}
+     */
+    self.resetCheckedOption = function () {
       var resetOption = self.children[currentOption];
 
       if (resetOption instanceof ns.File) {
@@ -270,30 +283,61 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       }
     };
 
-    this.getStoredOption = function () {
+    /**
+     * Get currently selected option
+     *
+     * @returns {StoredOption} Stored option
+     */
+    self.getStoredOption = function () {
       return storedOptions[currentOption];
     };
 
-    this.getSelectedIndex = function () {
+    /**
+     * Get selected index
+     *
+     * @returns {number} Currently selected index
+     */
+    self.getSelectedIndex = function () {
       return currentOption;
     };
 
-    this.reflow = function () {
+    /**
+     * Reflow/repaint current option if it is a ColorSelector
+     *
+     * @returns {H5PEditor.RadioSelector}
+     */
+    self.reflow = function () {
       var selected = self.children[currentOption];
       if (selected instanceof H5PEditor.ColorSelector) {
         selected.$colorPicker.spectrum('reflow');
       }
+
+      return self;
     };
 
-    this.setSelectedIndex = function (index) {
+    /**
+     * Set selected index
+     *
+     * @param {number} index Index to select
+     * @returns {H5PEditor.RadioSelector}
+     */
+    self.setSelectedIndex = function (index) {
       var $input = $options.children().eq(index).find('input');
       if (!$input.is(':checked')) {
         $input.attr('checked', true);
         $input.trigger('change');
       }
+
+      return self;
     };
 
-    this.setRadioLabels = function (radioLabels) {
+    /**
+     * Set radio labels
+     *
+     * @param {array} radioLabels Labels for radio buttons
+     * @returns {boolean} Success
+     */
+    self.setRadioLabels = function (radioLabels) {
       var $optionLabels = $options.children();
 
       // Validate length
@@ -302,21 +346,21 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       }
 
       $optionLabels.each(function (idx) {
-        $(this).get(0).lastChild.nodeValue = radioLabels[idx];
+        $(self).get(0).lastChild.nodeValue = radioLabels[idx];
       });
 
       return true;
     };
 
     /**
-     * Prune unused params.
+     * Validate user input and prune unused params.
      *
      * @returns {Boolean} Valid or not
      */
-    this.validate = function () {
+    self.validate = function () {
       // Prune unused params
       $options.find('input').each(function (idx) {
-        if (!$(this).is(':checked')) {
+        if (!$(self).is(':checked')) {
           delete params[field.fields[idx].name];
         }
         else if (self.children[idx] instanceof H5PEditor.ColorSelector) {
