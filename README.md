@@ -1,12 +1,13 @@
-H5P Editor Image Coordinate Selector
+H5P Editor Radio Selector
 ==========
 
-Makes it easier to select coordinates on an image
+Create a radio selector with content connected to each radio button.
+Only the selected option's content will be shown.
 
 ## Usage
 
-To make this widget work your content type need an image-field, that this widget must know the path to.
-In your semantics.json set, e.g.:
+The Radio Selector is a group type with fields, where each field is the content
+that will be connected to a radio button. Here is an example :
 
 ```json
 {
@@ -38,8 +39,7 @@ In your semantics.json set, e.g.:
 }
 ```
 
-An example of usage is found in the Course Presentation semantics: 
-https://github.com/h5p/h5p-course-presentation/blob/master/semantics.json
+An example of usage is found in the Course Presentation [semantics](https://github.com/h5p/h5p-course-presentation/commit/0cd85d109a2d1d6a1bdb2f0026f3ddffaf17ba53#diff-a8fac9ad0e63f198980962cc2aad2083R261)
 
 ## License
 
