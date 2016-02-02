@@ -131,6 +131,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
             triggerOptionRemoval();
             triggerOption(idx);
             self.showContent(idx);
+            self.reflow();
             currentOption = idx;
           }).appendTo($options);
       });
@@ -218,19 +219,36 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
       var type = 'bgColor';
 
-      child.$colorPicker.on('move.spectrum', function (e, tinycolor) {
-        // Add color
-        if (tinycolor) {
-          addOption(i, {type: type, value: tinycolor.toHexString()});
-        }
-        else {
-          // Remove color
-          removeOption(i);
+      /**
+       * Trigger color change, update params and reflow color picker
+       *
+       * @param [tinycolor] Optional new color
+       */
+      var changeSpectrumColor = function (tinycolor) {
+        tinycolor = tinycolor || child.$colorPicker.spectrum('get', tinycolor);
+
+        // Make sure we are the current option, avoid unintentional changes
+        if (currentOption === i) {
+
+          // Add color
+          if (tinycolor) {
+            addOption(i, {type: type, value: tinycolor.toHexString()});
+          }
+          else {
+            // Remove color
+            removeOption(i);
+          }
         }
 
         // Update ColorSelector manually, since it does not auto update when flat
-        child.setColor(child.$colorPicker.spectrum('get', tinycolor));
+        child.setColor(tinycolor);
+        child.$colorPicker.spectrum('reflow');
+      };
 
+      child.$colorPicker.on('move.spectrum', function (e, tinycolor) {
+        changeSpectrumColor(tinycolor);
+      }).on('change', function (e, tinycolor) {
+        changeSpectrumColor(tinycolor);
       });
     };
 
