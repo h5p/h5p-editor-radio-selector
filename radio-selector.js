@@ -63,6 +63,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Add option at given index
      *
+     * @private
      * @param {number} i Index of radio option
      * @param {StoredOption} option Stored option
      */
@@ -74,6 +75,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Remove given radio option
      *
+     * @private
      * @param {number} [i] Index of radio option
      */
     var removeOption = function (i) {
@@ -84,6 +86,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
     /**
      * Trigger type removal to parent
+     * @private
      */
     var triggerOptionRemoval = function () {
       self.trigger('backgroundRemoved');
@@ -92,6 +95,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Trigger type added to parent
      *
+     * @private
      * @param {number} i Index of option triggered
      */
     var triggerOption = function (i) {
@@ -101,6 +105,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
     /**
      * Create radio content and show selected
+     * @private
      */
     var createRadioContent = function () {
       H5PEditor.processSemanticsChunk(field.fields, params, $values, self);
@@ -109,6 +114,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
     /**
      * Create radio buttons
+     * @private
      */
     var createRadioButtons = function () {
       $values.children().each(function (idx) {
@@ -139,6 +145,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
     /**
      * Store initial options from processed parameters
+     * @private
      */
     var storeInitialOptions = function () {
       self.children.forEach(function (child, idx) {
@@ -168,6 +175,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
 
     /**
      * Handle changes in semantics
+     * @private
      */
     var handleSemanticsEvents = function () {
       self.children.forEach(function (child, i) {
@@ -179,6 +187,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Try handling child as image
      *
+     * @private
      * @param {Object} child Processed semantics instance
      * @param {number} i Index of instance in semantics
      */
@@ -209,6 +218,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     /**
      * Try handling child as color selector
      *
+     * @private
      * @param {Object} child Processed semantics instance
      * @param {number} i Index of instance in semantics
      */
@@ -222,6 +232,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       /**
        * Trigger color change, update params and reflow color picker
        *
+       * @private
        * @param [tinycolor] Optional new color
        */
       var changeSpectrumColor = function (tinycolor) {
