@@ -144,6 +144,21 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     };
 
     /**
+     * Checks if instance is image
+     *
+     * @param {Object} instance
+     * @returns {boolean} True if instance is an image
+     */
+    var isImage = function (instance) {
+      var w = ns.widgets;
+
+      // Ensure backwards core compatibility by allowing instanceof File
+      var isFile = instance instanceof ns.File;
+
+      return (w && w.image && instance instanceof w.image) || isFile;
+    };
+
+    /**
      * Store initial options from processed parameters
      * @private
      */
@@ -154,7 +169,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
         if (child.params) {
           var type = '';
           var value;
-          if (child instanceof ns.File) {
+          if (isImage(child)) {
             type = 'image';
             if (child.params && child.params.path) {
               value = H5P.getPath(child.params.path, H5PEditor.contentId);
@@ -192,7 +207,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
      * @param {number} i Index of instance in semantics
      */
     var handleImages = function (child, i) {
-      if (!(child instanceof ns.File) || !child.changes) {
+      if (!isImage(child) || !child.changes) {
         return;
       }
 
@@ -300,7 +315,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     self.resetCheckedOption = function () {
       var resetOption = self.children[currentOption];
 
-      if (resetOption instanceof ns.File) {
+      if (isImage(resetOption)) {
         // TODO: Make core h5peditor-file export a reset function
         // Temp solution, click 'close' using jquery
         $values.children().eq(currentOption)
