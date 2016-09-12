@@ -162,7 +162,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
           }
           else if (child instanceof H5PEditor.ColorSelector && child.params.length) {
             type = 'bgColor';
-            value = '#' + child.params;
+            value = child.params;
           }
 
           // Store options if we found a value
