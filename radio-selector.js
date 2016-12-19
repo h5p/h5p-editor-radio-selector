@@ -119,7 +119,7 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     var createRadioButtons = function () {
       $values.children().each(function (idx) {
         var show = '';
-        var label = $(this).find('.h5peditor-label').eq(0).html();
+        var label = field.fields[idx].label;
 
         // Show current option
         if (idx === currentOption) {
