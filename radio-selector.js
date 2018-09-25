@@ -259,7 +259,9 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       child.$colorPicker.on('move.spectrum', function (e, tinycolor) {
         changeSpectrumColor(tinycolor);
       }).on('change', function (e, tinycolor) {
-        changeSpectrumColor(tinycolor);
+        if (tinycolor !== null) {
+          changeSpectrumColor(tinycolor);
+        }
       });
     };
 
