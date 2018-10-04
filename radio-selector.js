@@ -1,3 +1,4 @@
+/*global ns*/
 H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventDispatcher) {
 
   var idCounter = 0;
