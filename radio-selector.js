@@ -168,13 +168,13 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
       return $(`<span class="${classNames}">${labelText}</span>`);
     }
     
-  /**
-   * @param {string} descriptionText 
-   * @returns {jQuery}
-   */
-  function createGroupDescription(descriptionText) {
-    return $(`<span class="h5peditor-field-description">${descriptionText}</span>`);
-  }
+    /**
+     * @param {string} descriptionText 
+     * @returns {jQuery}
+     */
+    function createGroupDescription(descriptionText) {
+      return $(`<span class="h5peditor-field-description">${descriptionText}</span>`);
+    }
 
     /**
      * Store initial options from processed parameters
