@@ -19,7 +19,16 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
     EventDispatcher.call(self);
 
     // Wrapper for widget
-    var $container = $('<div class="h5p-radio-selector">');
+    var $container = $(`<div class="h5p-radio-selector h5p-radio-selector-${field.name}">`);
+    if (field.label) {
+      const $label = createGroupLabel(field.label, field.optional === false);
+      $container.append($label);
+    }
+
+    if (field.description) {
+      const $description = createGroupDescription(field.description);
+      $container.append($description);
+    }
 
     // Wrapper for radio buttons
     var $options = $('<div class="h5p-radio-selector-options">').appendTo($container);
@@ -143,6 +152,29 @@ H5PEditor.widgets.radioSelector = H5PEditor.RadioSelector = (function ($, EventD
           }).appendTo($options);
       });
     };
+    
+    /**
+     * @param {string} labelText
+     * @param {boolean} fieldIsRequired
+     * @returns {jQuery}
+     */
+     function createGroupLabel(labelText, fieldIsRequired) {
+      const classNames = [
+        'h5peditor-label',
+        fieldIsRequired && 'h5peditor-required',
+      ]
+        .filter(Boolean)
+        .join(" ");
+      return $(`<span class="${classNames}">${labelText}</span>`);
+    }
+    
+    /**
+     * @param {string} descriptionText 
+     * @returns {jQuery}
+     */
+    function createGroupDescription(descriptionText) {
+      return $(`<span class="h5peditor-field-description">${descriptionText}</span>`);
+    }
 
     /**
      * Store initial options from processed parameters
